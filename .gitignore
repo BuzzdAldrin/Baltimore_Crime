@@ -37,3 +37,4 @@ vignettes/*.pdf
 # CSV Data Files, They're simply too big for github
 *.csv
 Data/
+.Rproj.user

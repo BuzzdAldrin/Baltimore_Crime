@@ -21,6 +21,10 @@ my.install <- function(pkg){
 ## Baltimore Crime
 ### Initial Exploration
 
-```{r}
+Let's begin by loading the three data files in.
+We have data on: arrests, 911 calls, and victims
+```{r importing data}
 arrests <- read.csv("Data/BPD_Arrests.csv")
+calls <- read.csv("Data/911_Calls_for_Service.csv")
+victims <- read.csv("Data/BPD_Part_1_Victim_Based_Crime_Data.csv")
 ```
