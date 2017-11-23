@@ -1,3 +1,5 @@
+#From the official git section on gitignores
+
 # History files
 .Rhistory
 .Rapp.history
@@ -31,3 +33,7 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# CSV Data Files, They're simply too big for github
+*.csv
+Data/
