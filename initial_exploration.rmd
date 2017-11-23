@@ -1,0 +1,26 @@
+---
+title: "initial_exploration"
+author: "Jason Hammett"
+date: "November 22, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Install function courtesy of CSCI 349
+my.install <- function(pkg){
+  if (!(pkg %in% installed.packages()[,1])){
+    install.packages(pkg)
+  }
+  return (require(pkg, character.only=TRUE))
+}
+
+```
+
+## Baltimore Crime
+### Initial Exploration
+
+```{r}
+arrests <- read.csv("Data/BPD_Arrests.csv")
+```
