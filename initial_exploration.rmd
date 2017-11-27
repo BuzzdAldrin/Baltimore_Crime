@@ -22,9 +22,23 @@ my.install <- function(pkg){
 ### Initial Exploration
 
 Let's begin by loading the three data files in.
-We have data on: arrests, 911 calls, and victims
+We have data on: arrests and victims. Calls is too large of a file so we'll do a separate rmd just of EDA on that one.
 ```{r importing data}
 arrests <- read.csv("Data/BPD_Arrests.csv")
-calls <- read.csv("Data/911_Calls_for_Service.csv")
+#calls <- read.csv("Data/911_Calls_for_Service.csv")
 victims <- read.csv("Data/BPD_Part_1_Victim_Based_Crime_Data.csv")
+```
+
+Let's look at the structure of the files.
+
+```{r structure}
+str(arrests)
+str(victims)
+```
+
+Now a summary.
+
+```{r}
+summary(arrests)
+summary(victims)
 ```
