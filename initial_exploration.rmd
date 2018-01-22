@@ -21,24 +21,37 @@ my.install <- function(pkg){
 ## Baltimore Crime
 ### Initial Exploration
 
-Let's begin by loading the three data files in.
-We have data on: arrests and victims. Calls is too large of a file so we'll do a separate rmd just of EDA on that one.
+Let's begin by loading the three data files in. Note that this data is from fall 2017. 
+We have data on: calls, arrests, and victims. Calls is a very large file, and arrests has pretty messy data, so we'll do a separate rmd of EDA on those.
 ```{r importing data}
-arrests <- read.csv("Data/BPD_Arrests.csv")
-#calls <- read.csv("Data/911_Calls_for_Service.csv")
 victims <- read.csv("Data/BPD_Part_1_Victim_Based_Crime_Data.csv")
 ```
 
-Let's look at the structure of the files.
+Let's look at the structure of the file.
 
 ```{r structure}
-str(arrests)
 str(victims)
 ```
 
 Now a summary.
 
 ```{r}
-summary(arrests)
 summary(victims)
 ```
+
+We've learned that this is a victim based crime dataset.
+Firstly, here are the factors that make up the victims dataset.
+* Crime Date - MM/DD/YYYY
+* CrimeTime - HH:mm:ss
+* CrimeCode
+* Location
+* Description
+* Inside.Outside - can be transformed to a logical
+* Weapon
+* Post
+* District
+* Neighborhood
+* Longitude
+* Latitude
+* Location.1 - A character verion of the latitude longitude pair
+* Premise
