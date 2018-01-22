@@ -55,3 +55,18 @@ Firstly, here are the factors that make up the victims dataset.
 * Latitude
 * Location.1 - A character verion of the latitude longitude pair
 * Premise
+
+Now time to clean the data.
+First, I will uniformly make Inside.Outside either "Inside" or "Outsside"
+
+```{r}
+insideOutsideVector <- victims$Inside.Outside
+#Convert single letter to full name
+insideOutsideVector[which(insideOutsideVector == "O")] <- "Outside"
+insideOutsideVector[which(insideOutsideVector == "I")] <- "Inside"
+#Remove unnecessary levels
+insideOutsideVector <- factor(insideOutsideVector)
+#Add it back into the data.frame
+victims$Inside.Outside <- insideOutsideVector
+```
+
