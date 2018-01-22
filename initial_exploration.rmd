@@ -69,4 +69,3 @@ insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
 victims$Inside.Outside <- insideOutsideVector
 ```
-
