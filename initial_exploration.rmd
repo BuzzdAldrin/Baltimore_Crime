@@ -71,3 +71,37 @@ insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
 victims$Inside.Outside <- insideOutsideVector
 ```
+
+Looking at the levels of the Premise attribute shows inconsistency with the data.
+```{r}
+levels(victims$Premise)
+```
+
+The inconsistency is beyond simply capitalization. Phrases are cut off. There are not a uniform descriptors for similar types of premise.
+For instance, there is "BAR" as well as "TAVERN/NIG". I am going to presume this is "NIGHTCLUB" cut off.
+There's "Church" and "RELIGOUS", so I'll need to manually edit these.
+
+```{r}
+premises <- victims$Premise
+#First, change blanks to NAs
+premises[which(premises == "")] <- NA
+#Now, I'll capitalize every element and reform the levels
+premises <- toupper(premises)
+#Recalculate the levels
+premises <- factor(premises)
+```
+
+* TODO - COMPLETE CLEANING OF PREMISE
+
+Neighborhoods are a much more consistent vector.
+
+```{r}
+levels(victims$Neighborhood)
+#Replace blanks with NAs
+neighborhoods <- victims$Neighborhood
+neighborhoods[which(neighborhoods == "")] <- NA
+neighborhoods <- factor(neighborhoods)
+victims$Neighborhood <- neighborhoods
+#Clean up
+rm(neighborhoods)
+```
