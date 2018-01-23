@@ -64,6 +64,8 @@ insideOutsideVector <- victims$Inside.Outside
 #Convert single letter to full name
 insideOutsideVector[which(insideOutsideVector == "O")] <- "Outside"
 insideOutsideVector[which(insideOutsideVector == "I")] <- "Inside"
+#Change blank's to NAs
+insideOutsideVector[which(insideOutsideVector == "")] <- NA
 #Remove unnecessary levels
 insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
