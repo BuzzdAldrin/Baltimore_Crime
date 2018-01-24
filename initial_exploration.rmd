@@ -105,3 +105,17 @@ victims$Neighborhood <- neighborhoods
 #Clean up
 rm(neighborhoods)
 ```
+
+Location has many, many levels. Note that the column Location.1 is the lat lon pair
+
+```{r}
+location <- victims$Location
+#Convert blanks to NA
+location[which(location == "")] <- NA
+#Reset levels
+location <- factor(levels)
+#Reassign
+victims$Location <- location
+#Clean up
+rm(location)
+```
