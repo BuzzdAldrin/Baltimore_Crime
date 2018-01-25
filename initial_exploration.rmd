@@ -147,7 +147,7 @@ I'm going to utilize ggmap to visualize these crimes.
 #Grab a map centered on the cherry hill neighborhood
 cherryHillMap <- get_map("cherry hill, baltimore, maryland", zoom = 15)
 #Plot all crimes
-mapPoints <- ggmap(baltimoreMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
+mapPoints <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
 
 #Display it
 mapPoints
