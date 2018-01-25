@@ -16,8 +16,12 @@ my.install <- function(pkg){
   return (require(pkg, character.only=TRUE))
 }
 
+#Decision Tree Libs
 my.install("rpart")
 my.install("rpart.plot")
+#Plotting Libs
+my.install("ggplot2")
+my.install("ggmap")
 ```
 
 ## Baltimore Crime
@@ -133,9 +137,25 @@ victims$Location.1 <- NULL
 rm(latLon)
 ```
 
-Basic rpart decision tree. I'll grab the cherryHill neighborhood from the data set
+ I'll grab the cherryHill neighborhood from the data set
 ```{r cherryHill}
 cherryHill <- victims[which(victims$Neighborhood == "Cherry Hill"),]
+```
+
+I'm going to utilize ggmap to visualize these crimes.
+```{r}
+#Grab a map centered on the cherry hill neighborhood
+cherryHillMap <- get_map("cherry hill, baltimore, maryland", zoom = 15)
+#Plot all crimes
+mapPoints <- ggmap(baltimoreMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
+
+#Display it
+mapPoints
+```
+
+Basic rpart decision tree on the cherryhill neighborhood.
+
+```{r}
 #Form a 90-10 train test split
 split <- sample(nrow(cherryHill), nrow(cherryHill) * 0.9)
 #Divide the set into train and test
