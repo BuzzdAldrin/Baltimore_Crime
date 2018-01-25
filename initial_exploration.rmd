@@ -16,6 +16,12 @@ my.install <- function(pkg){
   return (require(pkg, character.only=TRUE))
 }
 
+#Decision Tree Libs
+my.install("rpart")
+my.install("rpart.plot")
+#Plotting Libs
+my.install("ggplot2")
+my.install("ggmap")
 ```
 
 ## Baltimore Crime
@@ -35,7 +41,7 @@ str(victims)
 
 Now a summary.
 
-```{r}
+```{r summary}
 summary(victims)
 ```
 
@@ -55,3 +61,110 @@ Firstly, here are the factors that make up the victims dataset.
 * Latitude
 * Location.1 - A character verion of the latitude longitude pair
 * Premise
+
+Now time to clean the data.
+First, I will uniformly make Inside.Outside either "Inside" or "Outsside"
+
+```{r inside-outside}
+insideOutsideVector <- victims$Inside.Outside
+#Convert single letter to full name
+insideOutsideVector[which(insideOutsideVector == "O")] <- "Outside"
+insideOutsideVector[which(insideOutsideVector == "I")] <- "Inside"
+#Change blank's to NAs
+insideOutsideVector[which(insideOutsideVector == "")] <- NA
+#Remove unnecessary levels
+insideOutsideVector <- factor(insideOutsideVector)
+#Add it back into the data.frame
+victims$Inside.Outside <- insideOutsideVector
+```
+
+Looking at the levels of the Premise attribute shows inconsistency with the data.
+```{r premise}
+levels(victims$Premise)
+```
+
+The inconsistency is beyond simply capitalization. Phrases are cut off. There are not a uniform descriptors for similar types of premise.
+For instance, there is "BAR" as well as "TAVERN/NIG". I am going to presume this is "NIGHTCLUB" cut off.
+There's "Church" and "RELIGOUS", so I'll need to manually edit these.
+
+```{r premises}
+premises <- victims$Premise
+#First, change blanks to NAs
+premises[which(premises == "")] <- NA
+#Now, I'll capitalize every element and reform the levels
+premises <- toupper(premises)
+#Recalculate the levels
+premises <- factor(premises)
+```
+
+* TODO - COMPLETE CLEANING OF PREMISE
+
+Neighborhoods are a much more consistent vector.
+
+```{r neighborhoods}
+#Replace blanks with NAs
+neighborhoods <- victims$Neighborhood
+neighborhoods[which(neighborhoods == "")] <- NA
+neighborhoods <- factor(neighborhoods)
+victims$Neighborhood <- neighborhoods
+#Clean up
+rm(neighborhoods)
+```
+
+Location has many, many levels. Note that the column Location.1 is the lat lon pair
+
+```{r locations}
+location <- victims$Location
+#Convert blanks to NA
+location[which(location == "")] <- NA
+#Reset levels
+location <- factor(location)
+#Reassign
+victims$Location <- location
+#Clean up
+rm(location)
+```
+
+Location.1 is the lat/lon pair. I'll clean this and rename it latLon.
+
+```{r latlon}
+latLon <- victims$Location.1
+#Change blanks to NAs
+latLon[latLon == ""] <- NA
+victims$LatLon <- factor(latLon)
+victims$Location.1 <- NULL
+#Clean up
+rm(latLon)
+```
+
+ I'll grab the cherryHill neighborhood from the data set
+```{r cherryHill}
+cherryHill <- victims[which(victims$Neighborhood == "Cherry Hill"),]
+```
+
+I'm going to utilize ggmap to visualize these crimes.
+```{r}
+#Grab a map centered on the cherry hill neighborhood
+cherryHillMap <- get_map("cherry hill, baltimore, maryland", zoom = 15)
+#Plot all crimes
+mapPoints <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
+
+#Display it
+mapPoints
+```
+
+Basic rpart decision tree on the cherryhill neighborhood.
+
+```{r}
+#Form a 90-10 train test split
+split <- sample(nrow(cherryHill), nrow(cherryHill) * 0.9)
+#Divide the set into train and test
+cherryHillTrain <- cherryHill[split,]
+cherryHillTest <- cherryHill[-split,]
+#Build the model
+cherryHillModel <- rpart(cherryHillTrain, formula = CrimeCode ~ Description)
+#Plot it
+prp(cherryHillModel)
+#Make two more models
+cherryHillModel2 <- rpart(cherryHillTrain, formula = Weapon ~ Description)
+```
