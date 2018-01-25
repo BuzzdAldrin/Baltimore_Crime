@@ -22,9 +22,8 @@ my.install("rpart.plot")
 #Plotting Libs
 my.install("ggplot2")
 my.install("ggmap")
-```
 
-```{r colorblind settings}
+#colorblind settings
 # The palette with grey:
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 
@@ -175,11 +174,14 @@ I'm going to utilize ggmap to visualize these crimes.
 cherryHillMap <- get_map("cherry hill, baltimore, maryland", zoom = 15)
 #Plot all crimes
 mapPoints <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
+#Titles
+mapPoints <- mapPoints + ggtitle("Crime in Cherry Hill") + ylab("Latitude") + xlab("Longitude")
 
 #Display it
 mapPoints
 
-mapPoints2 <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude, colour = Weapon), data = cherryHill, alpha = .5) + scale_colour_manual(values=cbPalette)
+mapPoints2 <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude, colour = Weapon), data = cherryHill, alpha = .75) + scale_colour_manual(values=cbbPalette)
+mapPoints2 <- mapPoints2 + ggtitle("Crime in Cherry Hill by Weapon Used") + ylab("Latitude") + xlab("Longitude")
 
 mapPoints2
 ```
