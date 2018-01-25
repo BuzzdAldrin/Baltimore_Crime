@@ -1,5 +1,9 @@
 # Baltimore Crime
 
+At its core, this project is a personal attempt at understanding what seems senseless. In the second half of the 2010's, Baltimore experienced a surge in crime. It was not solely the increase in number of crimes that made the surge remarkable. It was the brazen and brutal nature of the crimes. Daylight and busy streets lost their sense of safety. Shootings lasted for dozens of shots. Yet, arrests and convictions were down. It was as if criminals emerged from a fog and just as quickly disappeared back into it.
+There are too many ways of categorizing the crime problem. Police, drugs, economics, familial. I see an intelligence problem. 
+So, as any data scientist would look to first, I searched online for the hard numbers. This project is based off of self-reported data from the Baltimore Police Dept, released through their data portal as part of their U.S. Justice department ordered consent decree.
+
 Data will not be tracked in Git due to its size.
 The data was obtained through the Baltimore Police Department's Website.
 https://www.baltimorepolice.org/crime-stats/open-data
