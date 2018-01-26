@@ -22,6 +22,7 @@ my.install("rpart.plot")
 #Plotting Libs
 my.install("ggplot2")
 my.install("ggmap")
+my.install("leaflet")
 
 #colorblind settings
 # The palette with grey:
@@ -201,3 +202,5 @@ prp(cherryHillModel)
 #Make two more models
 cherryHillModel2 <- rpart(cherryHillTrain, formula = Weapon ~ Description)
 ```
+
+TODO - Bin information by various time segments
