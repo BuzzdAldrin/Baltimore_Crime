@@ -108,8 +108,6 @@ premises[which(premises == "")] <- NA
 #Now, I'll capitalize every element and reform the levels
 premises <- toupper(premises)
 
-#Let's begin by combining the food options
-
 #Recalculate the levels
 premises <- factor(premises)
 #Place it back in dataframe
@@ -118,7 +116,35 @@ victims$Premise <- premises
 rm(premises)
 ```
 
-* TODO - COMPLETE CLEANING OF PREMISE
+To facilitate more data, I'll create a new variable with cleaner premises and specify the old one PremiseDetailed. I'll also create a column called PremiseCategory that is RESIDENTIAL, BUSINESS, GOVERNMENT, INDUSTRIAL, PARK, TRANSPORT, PUBLICSERVICE
+```{r premises detail}
+victims$PremiseDetailed <- victims$Premise
+victims$PremiseCategory <- victims$Premise
+
+#It'll be usefull to compare the summary of premise before and after we make changes
+summary(premise)
+
+premise <- victims$Premise
+category <- as.character(premise)
+
+#I'll begin by combing food levels into simply restaurant
+premise[which(premise == "FAST FOOD")] <- "RESTAURANT"
+premise[which(premise == "CARRY OUT")] <- "RESTAURANT"
+premise[which(premise == "CHAIN FOOD")] <- "RESTAURANT"
+premise[which(premise == "PIZZA/OTHE")] <- "RESTAURANT"
+premise[which(premise == "BAKERY")] <- "RESTAURANT"
+
+#Done with food. All these are a BUSINESS category
+category[which(category == "RESTAURANT")] <- "BUSINESS"
+
+#I'll move on to residential
+premise[which(premise == "APT/CONDO")] <- "APARTMENT"
+premise[which(premise == "APT. LOCKE")] <- "APARTMENT"
+
+#Done with houses and apartments. All of these are RESIDENTIAL category
+category[which(category == "APARTMENT")] <- "RESIDENTIAL"
+
+```
 
 Neighborhoods are a much more consistent vector.
 
