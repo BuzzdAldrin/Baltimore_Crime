@@ -107,8 +107,15 @@ premises <- victims$Premise
 premises[which(premises == "")] <- NA
 #Now, I'll capitalize every element and reform the levels
 premises <- toupper(premises)
+
+#Let's begin by combining the food options
+
 #Recalculate the levels
 premises <- factor(premises)
+#Place it back in dataframe
+victims$Premise <- premises
+#Clean up
+rm(premises)
 ```
 
 * TODO - COMPLETE CLEANING OF PREMISE
@@ -163,6 +170,23 @@ weapon <- factor(weapon)
 #Pop back into data frame
 victims$Weapon <- weapon
 ```
+
+Now it's time for a more complicated task: date.
+There are two factor variables representing date and time. I'll combine them into one Date object
+```{r}
+#Append Time to Date
+victims$CrimeDateTime <- paste(victims$CrimeDate, victims$CrimeTime)
+#Let's look at it
+str(victims$CrimeDateTime)
+#Now let's convert these to date objects
+victims$CrimeDateTime <- as.POSIXct(victims$CrimeDateTime, format = "%m/%d/%Y %H:%M:%S")
+#Let's look at the new version
+str(victims$CrimeDateTime)
+#Let's wipe the uneeded Date and Time factors
+victims$CrimeDate <- NULL
+victims$CrimeTime <- NULL
+```
+
 
  I'll grab the cherryHill neighborhood from the data set
 ```{r cherryHill}
