@@ -122,10 +122,9 @@ victims$PremiseDetailed <- victims$Premise
 victims$PremiseCategory <- victims$Premise
 
 #It'll be usefull to compare the summary of premise before and after we make changes
-summary(premise)
-
 premise <- victims$Premise
 category <- as.character(premise)
+summary(premise)
 
 #I'll begin by combing food levels into simply restaurant
 premise[which(premise == "FAST FOOD")] <- "RESTAURANT"
