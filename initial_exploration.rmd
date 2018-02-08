@@ -59,6 +59,31 @@ Now a summary.
 summary(victims)
 ```
 
+I know that I am going to have to be replacing many factors in the cleaning process, so I'll make a function that does it for me.
+
+```{r replace function}
+#replaceWith
+#Params: vec - vector housing the data (i.e. a column from a dataframe), original, replacement
+#Returns a vector
+replaceWith <- function(vec, original, replacement, asFactor = TRUE){
+  if (asFactor){
+    vec <- as.character(vec)
+  }
+  vec[which(vec == original)] <- replacement
+  if (asFactor){
+    vec <- factor(vec)
+  }
+  vec
+}
+
+#Blanks to NAs, automatically convert "" to NA
+#Param: vec -  vector, i.e. a column of a dataframe
+blanksToNA <- function(vec){
+  vec[which(vec == "")] <- NA
+  vec
+}
+```
+
 We've learned that this is a victim based crime dataset.
 Firstly, here are the factors that make up the victims dataset.
 * Crime Date - MM/DD/YYYY
@@ -82,10 +107,10 @@ First, I will uniformly make Inside.Outside either "Inside" or "Outsside"
 ```{r inside-outside}
 insideOutsideVector <- victims$Inside.Outside
 #Convert single letter to full name
-insideOutsideVector[which(insideOutsideVector == "O")] <- "Outside"
-insideOutsideVector[which(insideOutsideVector == "I")] <- "Inside"
+insideOutsideVector <- replaceWith(insideOutsideVector, "O", "Outside")
+insideOutsideVector <- replaceWith(insideOutsideVector, "I", "Inside")
 #Change blank's to NAs
-insideOutsideVector[which(insideOutsideVector == "")] <- NA
+insideOutsideVector <- blanksToNA(vec = insideOutsideVector)
 #Remove unnecessary levels
 insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
@@ -104,21 +129,135 @@ There's "Church" and "RELIGOUS", so I'll need to manually edit these.
 ```{r premises}
 premises <- victims$Premise
 #First, change blanks to NAs
-premises[which(premises == "")] <- NA
+premises <- blanksToNA(premises)
 #Now, I'll capitalize every element and reform the levels
 premises <- toupper(premises)
+
 #Recalculate the levels
 premises <- factor(premises)
+#Place it back in dataframe
+victims$Premise <- premises
+#Clean up
+rm(premises)
 ```
 
-* TODO - COMPLETE CLEANING OF PREMISE
+To facilitate more data, I'll create a new variable with cleaner premises and specify the old one PremiseDetailed. I'll also create a column called PremiseCategory that is RESIDENTIAL, BUSINESS, GOVERNMENT, INDUSTRIAL, PARK, TRANSPORT, PUBLICSERVICE, NIGHTLIFE, STREET, VACANT
+```{r premises detail}
+victims$PremiseDetailed <- victims$Premise
+victims$PremiseCategory <- victims$Premise
+
+#It'll be usefull to compare the summary of premise before and after we make changes
+premise <- victims$Premise
+category <- as.character(premise)
+summary(premise)
+
+#I'll begin by combing food levels into simply restaurant
+premise <- replaceWith(premise, "FAST FOOD","RESTAURANT")
+premise <- replaceWith(premise, "CARRY OUT", "RESTAURANT")
+premise <- replaceWith(premise, "CHAIN FOOD", "RESTAURANT")
+premise <- replaceWith(premise, "PIZZA/OTHE", "RESTAURANT")
+premise <- replaceWith(premise, "BAKERY", "RESTAURANT")
+
+#Nightlife
+premise <- replaceWith(vec = premise, original = "TAVERN/NIG", replacement = "BAR")
+
+#I'll move on to residential
+premise <- replaceWith(premise, "APT/CONDO", "APARTMENT")
+premise <- replaceWith(premise, "APT. LOCKE", "APARTMENT")
+
+#Houses, this is more complicated
+premise <- replaceWith(premise, "ROW/TOWNHO", "HOME")
+premise <- replaceWith(premise, "SINGLE HOU", "HOME")
+premise <- replaceWith(premise, "DWELLING", "HOME")
+premise <- replaceWith(premise, "PORCH/DECK", "HOME")
+premise <- replaceWith(premise, "YARD", "HOME")
+premise <- replaceWith(premise, "PUBLIC HOU", "PUBLIC HOUSING")
+premise <- replaceWith(premise, "MOBILE HOM", "HOME")
+premise <- replaceWith(premise, "OTHER/RESI", "OTHER RESIDENTIAL")
+
+#An important element of crime, vacant property
+premise <- replaceWith(premise, "VACANT LOT", "VACANT PROPERTY")
+premise <- replaceWith(premise, "VACANT BUI", "VACANT PROPERTY")
+premise <- replaceWith(premise, "VACANT DWE", "VACANT PROPERTY")
+
+#Schools
+premise <- replaceWith(premise, "PUBLIC SCH", "SCHOOL")
+premise <- replaceWith(premise, "PRIVATE SC", "SCHOOL")
+premise <- replaceWith(premise, "SCHOOL PLA", "SCHOOL")
+
+#Transport
+premise <- replaceWith(premise, "PARKING LO", "PARKING LOT")
+
+#Health
+premise <- replaceWith(premise, "HOSP/NURS.", "HOSPITAL")
+premise <- replaceWith(premise, "DAY CARE F", "DAY CARE")
+
+#Other businesses
+premise <- replaceWith(premise, "BANK/FINAN", "BANK")
+premise <- replaceWith(premise, "LIQUOR STO", "LIQUOR STORE")
+premise <- replaceWith(premise, "CONVENIENC", "CONVENIENCE STORE")
+premise <- replaceWith(premise, "OFFICE BUI", "OFFICE BUILDING")
+premise <- replaceWith(premise, "GROCERY/CO", "GROCERY")
+premise <- replaceWith(premise, "DOCTORS OF", "DOCTORS OFFICE")
+premise <- replaceWith(premise, "HOTEL/MOTE", "HOTEL")
+premise <- replaceWith(premise, "JEWELRY ST", "JEWELRY STORE")
+premise <- replaceWith(premise, "PHOTO STUD", "PHOTO STUDIO")
+premise <- replaceWith(premise, "GAS STATIO", "GAS STATION")
+premise <- replaceWith(premise, "OTHERS\ - IN", "OTHER INDOORS")
+premise <- replaceWith(premise, "SHOPPING M", "SHOPPING MALL")
+premise <- replaceWith(premise, "MINI STORA", "MINI STORAGE")
+
+#Outdoors
+premise <- replaceWith(premise, "INNER HARB", "INNER HARBOR")
+premise <- replaceWith(premise, "OTHER - OU", "OTHER OUTDOORS")
+premise <- replaceWith(premise, "PUBLIC ARE", "PUBLIC AREA")
+premise <- replaceWith(premise, "PUBLIC BUI", "PUBLIC BUILDING")
+
+#Construction
+premise <- replaceWith(premise, "CONSTRUCTIO", "CONSTRUCTION")
+premise <- replaceWith(premise, "CONSTRUCTI", "CONSTRUCTION")
+premise <- replaceWith(premise, "BLDG UNDER", "CONSTRUCTION")
+
+#Create the category, more general
+category <- as.character(premise)
+#Residential
+category <- replaceWith(category, "APARTMENT", "RESIDENTIAL", asFactor = FALSE)
+category <- replaceWith(category, "HOME", "RESIDENTIAL", asFactor = FALSE)
+category <- replaceWith(category, "PUBLIC HOUSING", "RESIDENTIAL", asFactor = FALSE)
+category <- replaceWith(category, "OTHER RESIDENTIAL", "RESIDENTIAL", asFactor = FALSE)
+
+#Nightlife
+category <- replaceWith(category, "BAR", "NIGHTLIFE", asFactor = FALSE)
+
+#Business categories
+category <- replaceWith(category, "RESTAURANT", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "SCHOOL", "SCHOOL", asFactor = FALSE)
+category <- replaceWith(category, "BANK", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "LIQUOR STORE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "DRUG STORE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "JEWELRY STORE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "PAWN SHOP", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "CONVENIENCE STORE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "GAS STATION", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "DOCTORS OFFICE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "HOTEL", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "OFFICE BUILDING", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "BANK", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "GROCERY", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "PHOTO STUDIO", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "SHOPPING MALL", "BUSINESS", asFactor = FALSE)
+
+#Recreation
+category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
+category <- replaceWith(category, "PLAYGROUND", "RECREATION", asFactor = FALSE)
+```
 
 Neighborhoods are a much more consistent vector.
 
 ```{r neighborhoods}
 #Replace blanks with NAs
 neighborhoods <- victims$Neighborhood
-neighborhoods[which(neighborhoods == "")] <- NA
+neighborhoods <- blanksToNA(neighborhoods)
 neighborhoods <- factor(neighborhoods)
 victims$Neighborhood <- neighborhoods
 #Clean up
@@ -130,7 +269,7 @@ Location has many, many levels. Note that the column Location.1 is the lat lon p
 ```{r locations}
 location <- victims$Location
 #Convert blanks to NA
-location[which(location == "")] <- NA
+location <- blanksToNA(location)
 #Reset levels
 location <- factor(location)
 #Reassign
@@ -144,7 +283,7 @@ Location.1 is the lat/lon pair. I'll clean this and rename it latLon.
 ```{r latlon}
 latLon <- victims$Location.1
 #Change blanks to NAs
-latLon[latLon == ""] <- NA
+latLon <- blanksToNA(latLon)
 victims$LatLon <- factor(latLon)
 victims$Location.1 <- NULL
 #Clean up
@@ -157,12 +296,29 @@ Weapon
 #Grab em
 weapon <- victims$Weapon
 #Replace blank with NA
-weapon[which(weapon == "")] <- NA
+weapon <- blanksToNA(weapon)
 #Reassign levels
 weapon <- factor(weapon)
 #Pop back into data frame
 victims$Weapon <- weapon
 ```
+
+Now it's time for a more complicated task: date.
+There are two factor variables representing date and time. I'll combine them into one Date object
+```{r}
+#Append Time to Date
+victims$CrimeDateTime <- paste(victims$CrimeDate, victims$CrimeTime)
+#Let's look at it
+str(victims$CrimeDateTime)
+#Now let's convert these to date objects
+victims$CrimeDateTime <- as.POSIXct(victims$CrimeDateTime, format = "%m/%d/%Y %H:%M:%S")
+#Let's look at the new version
+str(victims$CrimeDateTime)
+#Let's wipe the uneeded Date and Time factors
+victims$CrimeDate <- NULL
+victims$CrimeTime <- NULL
+```
+
 
  I'll grab the cherryHill neighborhood from the data set
 ```{r cherryHill}
