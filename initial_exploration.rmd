@@ -173,6 +173,7 @@ premise <- replaceWith(premise, "PORCH/DECK", "HOME")
 premise <- replaceWith(premise, "YARD", "HOME")
 premise <- replaceWith(premise, "PUBLIC HOU", "PUBLIC HOUSING")
 premise <- replaceWith(premise, "MOBILE HOM", "HOME")
+premise <- replaceWith(premise, "OTHER/RESI", "OTHER RESIDENTIAL")
 
 #An important element of crime, vacant property
 premise <- replaceWith(premise, "VACANT LOT", "VACANT PROPERTY")
@@ -189,6 +190,7 @@ premise <- replaceWith(premise, "PARKING LO", "PARKING LOT")
 
 #Health
 premise <- replaceWith(premise, "HOSP/NURS.", "HOSPITAL")
+premise <- replaceWith(premise, "DAY CARE F", "DAY CARE")
 
 #Other businesses
 premise <- replaceWith(premise, "BANK/FINAN", "BANK")
@@ -201,11 +203,15 @@ premise <- replaceWith(premise, "HOTEL/MOTE", "HOTEL")
 premise <- replaceWith(premise, "JEWELRY ST", "JEWELRY STORE")
 premise <- replaceWith(premise, "PHOTO STUD", "PHOTO STUDIO")
 premise <- replaceWith(premise, "GAS STATIO", "GAS STATION")
+premise <- replaceWith(premise, "OTHERS\ - IN", "OTHER INDOORS")
+premise <- replaceWith(premise, "SHOPPING M", "SHOPPING MALL")
+premise <- replaceWith(premise, "MINI STORA", "MINI STORAGE")
 
 #Outdoors
 premise <- replaceWith(premise, "INNER HARB", "INNER HARBOR")
 premise <- replaceWith(premise, "OTHER - OU", "OTHER OUTDOORS")
 premise <- replaceWith(premise, "PUBLIC ARE", "PUBLIC AREA")
+premise <- replaceWith(premise, "PUBLIC BUI", "PUBLIC BUILDING")
 
 #Construction
 premise <- replaceWith(premise, "CONSTRUCTIO", "CONSTRUCTION")
@@ -218,6 +224,7 @@ category <- as.character(premise)
 category <- replaceWith(category, "APARTMENT", "RESIDENTIAL", asFactor = FALSE)
 category <- replaceWith(category, "HOME", "RESIDENTIAL", asFactor = FALSE)
 category <- replaceWith(category, "PUBLIC HOUSING", "RESIDENTIAL", asFactor = FALSE)
+category <- replaceWith(category, "OTHER RESIDENTIAL", "RESIDENTIAL", asFactor = FALSE)
 
 #Nightlife
 category <- replaceWith(category, "BAR", "NIGHTLIFE", asFactor = FALSE)
@@ -238,6 +245,11 @@ category <- replaceWith(category, "OFFICE BUILDING", "BUSINESS", asFactor = FALS
 category <- replaceWith(category, "BANK", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "GROCERY", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "PHOTO STUDIO", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "SHOPPING MALL", "BUSINESS", asFactor = FALSE)
+
+#Recreation
+category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
+category <- replaceWith(category, "PLAYGROUND", "RECREATION", asFactor = FALSE)
 ```
 
 Neighborhoods are a much more consistent vector.
