@@ -59,6 +59,25 @@ Now a summary.
 summary(victims)
 ```
 
+I know that I am going to have to be replacing many factors in the cleaning process, so I'll make a function that does it for me.
+
+```{r replace function}
+#replaceWith
+#Params: vec - vector housing the data (i.e. a column from a dataframe), original, replacement
+#Returns a vector
+replaceWith <- function(vec, original, replacement){
+  vec[which(vec == original)] <- replacement
+  vec
+}
+
+#Blanks to NAs, automatically convert "" to NA
+#Param: vec -  vector, i.e. a column of a dataframe
+blanksToNA <- function(vec){
+  vec[which(vec == "")] <- NA
+  vec
+}
+```
+
 We've learned that this is a victim based crime dataset.
 Firstly, here are the factors that make up the victims dataset.
 * Crime Date - MM/DD/YYYY
@@ -82,10 +101,10 @@ First, I will uniformly make Inside.Outside either "Inside" or "Outsside"
 ```{r inside-outside}
 insideOutsideVector <- victims$Inside.Outside
 #Convert single letter to full name
-insideOutsideVector[which(insideOutsideVector == "O")] <- "Outside"
-insideOutsideVector[which(insideOutsideVector == "I")] <- "Inside"
+insideOutsideVector <- replaceWith(insideOutsideVector, "O", "Outside")
+insideOutsideVector <- replaceWith(insideOutsideVector, "I", "Inside")
 #Change blank's to NAs
-insideOutsideVector[which(insideOutsideVector == "")] <- NA
+insideOutsideVector <- blanksToNA(vec = insideOutsideVector)
 #Remove unnecessary levels
 insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
