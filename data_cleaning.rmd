@@ -1,5 +1,5 @@
 ---
-title: "initial_exploration"
+title: "Data Cleaning"
 author: "Jason Hammett"
 date: "November 22, 2017"
 output: html_document
@@ -103,6 +103,8 @@ Firstly, here are the factors that make up the victims dataset.
 * Premise
 
 Now time to clean the data.
+
+####Inside or Outside
 First, I will uniformly make Inside.Outside either "Inside" or "Outsside"
 
 ```{r inside-outside}
@@ -117,6 +119,8 @@ insideOutsideVector <- factor(insideOutsideVector)
 #Add it back into the data.frame
 victims$Inside.Outside <- insideOutsideVector
 ```
+
+####Premise
 
 Looking at the levels of the Premise attribute shows inconsistency with the data.
 ```{r premise}
@@ -253,6 +257,8 @@ category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
 category <- replaceWith(category, "PLAYGROUND", "RECREATION", asFactor = FALSE)
 ```
 
+####Neighborhoods
+
 Neighborhoods are a much more consistent vector.
 
 ```{r neighborhoods}
@@ -264,6 +270,8 @@ victims$Neighborhood <- neighborhoods
 #Clean up
 rm(neighborhoods)
 ```
+
+####Location 
 
 Location has many, many levels. Note that the column Location.1 is the lat lon pair
 
@@ -291,7 +299,7 @@ victims$Location.1 <- NULL
 rm(latLon)
 ```
 
-Weapon
+####Weapons
 
 ```{r}
 #Grab em
@@ -320,10 +328,15 @@ victims$CrimeDate <- NULL
 victims$CrimeTime <- NULL
 ```
 
+####Time Series Binning
+These data sets are a time series. Every event is linked to events before and after in strict order. Remove the time and we lose the inherit relationship. I would like to bin data by hour to perform more generic time series analysis.
 
-TODO - Bin information by various time segments
+```{r time series binning}
+
+```
 
 Finally, let's save the workplace image so we can pick up from here.
+
 ```{r saving image}
 save.image(file = "cleanedData.RData")
 ```
