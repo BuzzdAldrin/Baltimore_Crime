@@ -15,7 +15,8 @@ my.install <- function(pkg){
   }
   return (require(pkg, character.only=TRUE))
 }
-
+#Knitr
+my.install("knitr")
 #Decision Tree Libs
 my.install("rpart")
 my.install("rpart.plot")
@@ -320,43 +321,9 @@ victims$CrimeTime <- NULL
 ```
 
 
- I'll grab the cherryHill neighborhood from the data set
-```{r cherryHill}
-cherryHill <- victims[which(victims$Neighborhood == "Cherry Hill"),]
-```
-
-I'm going to utilize ggmap to visualize these crimes.
-```{r mapping cherry hill}
-#Grab a map centered on the cherry hill neighborhood
-cherryHillMap <- get_map("cherry hill, baltimore, maryland", zoom = 15)
-#Plot all crimes
-mapPoints <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude), data = cherryHill, alpha = .25)
-#Titles
-mapPoints <- mapPoints + ggtitle("Crime in Cherry Hill") + ylab("Latitude") + xlab("Longitude")
-
-#Display it
-mapPoints
-
-mapPoints2 <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude, colour = Weapon), data = cherryHill, alpha = .75) + scale_colour_manual(values=cbbPalette)
-mapPoints2 <- mapPoints2 + ggtitle("Crime in Cherry Hill by Weapon Used") + ylab("Latitude") + xlab("Longitude")
-
-mapPoints2
-```
-
-Basic rpart decision tree on the cherryhill neighborhood.
-
-```{r training tree on cherry hill}
-#Form a 90-10 train test split
-split <- sample(nrow(cherryHill), nrow(cherryHill) * 0.9)
-#Divide the set into train and test
-cherryHillTrain <- cherryHill[split,]
-cherryHillTest <- cherryHill[-split,]
-#Build the model
-cherryHillModel <- rpart(cherryHillTrain, formula = CrimeCode ~ Description)
-#Plot it
-prp(cherryHillModel)
-#Make two more models
-cherryHillModel2 <- rpart(cherryHillTrain, formula = Weapon ~ Description)
-```
-
 TODO - Bin information by various time segments
+
+Finally, let's save the workplace image so we can pick up from here.
+```{r saving image}
+save.image(file = "cleanedData.RData")
+```

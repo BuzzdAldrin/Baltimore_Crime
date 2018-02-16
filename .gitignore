@@ -28,3 +28,5 @@ vignettes/*.pdf
 Data/
 .Rproj.user
 Rplot.png
+#Data files, these are for Rstudio to pick up where we left off between files
+*.RData
