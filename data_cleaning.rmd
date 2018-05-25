@@ -146,7 +146,7 @@ victims$Premise <- premises
 rm(premises)
 ```
 
-To facilitate more data, I'll create a new variable with cleaner premises and specify the old one PremiseDetailed. I'll also create a column called PremiseCategory that is RESIDENTIAL, BUSINESS, GOVERNMENT, INDUSTRIAL, PARK, TRANSPORT, PUBLICSERVICE, NIGHTLIFE, STREET, VACANT
+To facilitate more data, I'll create a new variable with cleaner premises and specify the old one PremiseDetailed. I'll also create a column called PremiseCategory that is RESIDENTIAL, BUSINESS, GOVERNMENT, INDUSTRIAL, PARK, TRANSPORT, PUBLICSERVICE, NIGHTLIFE, STREET, VACANT PROPERTY, RECREATION
 ```{r premises detail}
 victims$PremiseDetailed <- victims$Premise
 victims$PremiseCategory <- victims$Premise
@@ -192,10 +192,14 @@ premise <- replaceWith(premise, "SCHOOL PLA", "SCHOOL")
 
 #Industrial
 premise <- replaceWith(premise, "MANUFACTUR", "MANUFACTURING")
+premise <- replaceWith(premise, "UTILITIES-", "UTILITIES")
+premise <- replaceWith(premise, "SHED/GARAG", "SHED/GARAGE")
 
 #Transport
 premise <- replaceWith(premise, "PARKING LO", "PARKING LOT")
 premise <- replaceWith(premise, "BRIDGE-PIE", "BRIDGE-PIER")
+premise <- replaceWith(premise, "TRUCKING &", "TRUCKING")
+premise <- replaceWith(premise, "TRACTOR TR", "TRACTOR TRAILER")
 
 #Health
 premise <- replaceWith(premise, "HOSP/NURS.", "HOSPITAL")
@@ -215,18 +219,37 @@ premise <- replaceWith(premise, "GAS STATIO", "GAS STATION")
 premise <- replaceWith(premise, "OTHERS\ - IN", "OTHER INDOORS")
 premise <- replaceWith(premise, "SHOPPING M", "SHOPPING MALL")
 premise <- replaceWith(premise, "MINI STORA", "MINI STORAGE")
+premise <- replaceWith(premise, "RETAIL/SMA", "RETAIL")
+premise <- replaceWith(premise, "CAR REPAI", "CAR REPAIR")
+premise <- replaceWith(premise, "SALESMAN/C", "SALESMAN")
+#premise <- replaceWith(premise, "RENTAL/VID", "") #Don't know enough to answer this, rental/video store?
+premise <- replaceWith(premise, "BUS. PARK", "BUSINESS PARK")
+premise <- replaceWith(premise, "WHOLESALE/", "WHOLESALE")
+premise <- replaceWith(premise, "LAUNDRY/CL", "LAUNDRY")
+premise <- replaceWith(premise, "BARBER/BEA", "SALON")
 
 #Outdoors
 premise <- replaceWith(premise, "INNER HARB", "INNER HARBOR")
 premise <- replaceWith(premise, "OTHER - OU", "OTHER OUTDOORS")
 premise <- replaceWith(premise, "PUBLIC ARE", "PUBLIC AREA")
 premise <- replaceWith(premise, "PUBLIC BUI", "PUBLIC BUILDING")
+premise <- replaceWith(premise, "CAR LOT-NE", "CAR LOT")
+
+#Government Entities
+premise <- replaceWith(premise, "POLICE DEP", "POLICE")
+premise <- replaceWith(premise, "COURT HOUS", "COURT")
+premise <- replaceWith(premise, "FIRE DEPAR", "FIRE")
+premise <- replaceWith(premise, "PENITENTIA", "PENITENTIARY")
 
 #Construction
 premise <- replaceWith(premise, "CONSTRUCTIO", "CONSTRUCTION")
 premise <- replaceWith(premise, "CONSTRUCTI", "CONSTRUCTION")
 # premise <- replaceWith(premise, "BLDG UNDER", "CONSTRUCTION") # Not sure what BLDG UNDER means, could be construction 
+```
 
+Creating a more general premise factor that can be easier to generalize
+
+```{r premise category}
 #Create the category, more general
 category <- as.character(premise)
 #Residential
@@ -260,9 +283,17 @@ category <- replaceWith(category, "CARRY OUT", "BUSINESS", asFactor = FALSE)
 #Recreation
 category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
 category <- replaceWith(category, "PLAYGROUND", "RECREATION", asFactor = FALSE)
+category <- replaceWith(category, "RACE TRACK", "RECREATION", asFactor = FALSE)
 
 #Industrial
 category <- replaceWith(category, "MANUFACTURING", "INDUSTRIAL", asFactor = FALSE)
+category <- replaceWith(category, "WAREHOUSE", "INDUSTRIAL", asFactor = FALSE)
+category <- replaceWith(category, "UTILITIES", "INDUSTRIAL", asFactor = FALSE)
+
+#Transportation
+category <- replaceWith(category, "CAB", "TRANSPORTATION", asFactor = FALSE)
+category <- replaceWith(category, "BOAT/SHIP", "TRANSPORTATION", asFactor = FALSE)
+category <- replaceWith(category, "BUS/AUTO", "TRANSPORTATION")
 
 #Add PremiseCategory Back into the dataframe, removing unused levels
 victims$PremiseCategory <- factor(category)
