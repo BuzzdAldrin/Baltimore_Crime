@@ -251,6 +251,7 @@ category <- replaceWith(category, "BANK", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "GROCERY", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "PHOTO STUDIO", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "SHOPPING MALL", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "CARRY OUT", "BUSINESS", asFactor = FALSE)
 
 #Recreation
 category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
