@@ -190,8 +190,12 @@ premise <- replaceWith(premise, "PUBLIC SCH", "SCHOOL")
 premise <- replaceWith(premise, "PRIVATE SC", "SCHOOL")
 premise <- replaceWith(premise, "SCHOOL PLA", "SCHOOL")
 
+#Industrial
+premise <- replaceWith(premise, "MANUFACTUR", "MANUFACTURING")
+
 #Transport
 premise <- replaceWith(premise, "PARKING LO", "PARKING LOT")
+premise <- replaceWith(premise, "BRIDGE-PIE", "BRIDGE-PIER")
 
 #Health
 premise <- replaceWith(premise, "HOSP/NURS.", "HOSPITAL")
@@ -221,7 +225,7 @@ premise <- replaceWith(premise, "PUBLIC BUI", "PUBLIC BUILDING")
 #Construction
 premise <- replaceWith(premise, "CONSTRUCTIO", "CONSTRUCTION")
 premise <- replaceWith(premise, "CONSTRUCTI", "CONSTRUCTION")
-premise <- replaceWith(premise, "BLDG UNDER", "CONSTRUCTION")
+# premise <- replaceWith(premise, "BLDG UNDER", "CONSTRUCTION") # Not sure what BLDG UNDER means, could be construction 
 
 #Create the category, more general
 category <- as.character(premise)
@@ -256,6 +260,15 @@ category <- replaceWith(category, "CARRY OUT", "BUSINESS", asFactor = FALSE)
 #Recreation
 category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
 category <- replaceWith(category, "PLAYGROUND", "RECREATION", asFactor = FALSE)
+
+#Industrial
+category <- replaceWith(category, "MANUFACTURING", "INDUSTRIAL", asFactor = FALSE)
+
+#Add PremiseCategory Back into the dataframe, removing unused levels
+victims$PremiseCategory <- factor(category)
+
+#Add PremiseDetailed back into the dataframe, removing unused levels
+victims$PremiseDetailed <- factor(premise)
 ```
 
 ####Neighborhoods
