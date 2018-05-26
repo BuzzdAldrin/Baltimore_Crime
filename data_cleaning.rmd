@@ -279,6 +279,8 @@ category <- replaceWith(category, "GROCERY", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "PHOTO STUDIO", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "SHOPPING MALL", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "CARRY OUT", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "FINANCE/LO", "BUSINESS", asFactor = FALSE)
+
 
 #Recreation
 category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
@@ -293,7 +295,8 @@ category <- replaceWith(category, "UTILITIES", "INDUSTRIAL", asFactor = FALSE)
 #Transportation
 category <- replaceWith(category, "CAB", "TRANSPORTATION", asFactor = FALSE)
 category <- replaceWith(category, "BOAT/SHIP", "TRANSPORTATION", asFactor = FALSE)
-category <- replaceWith(category, "BUS/AUTO", "TRANSPORTATION")
+category <- replaceWith(category, "BUS/AUTO", "TRANSPORTATION", asFactor = FALSE)
+category <- replaceWith(category, "LIGHT RAIL", "TRANSPORTATION", asFactor = FALSE)
 
 #Add PremiseCategory Back into the dataframe, removing unused levels
 victims$PremiseCategory <- factor(category)
@@ -371,13 +374,6 @@ str(victims$CrimeDateTime)
 #Let's wipe the uneeded Date and Time factors
 victims$CrimeDate <- NULL
 victims$CrimeTime <- NULL
-```
-
-####Time Series Binning
-These data sets are a time series. Every event is linked to events before and after in strict order. Remove the time and we lose the inherit relationship. I would like to bin data by hour to perform more generic time series analysis.
-
-```{r time series binning}
-
 ```
 
 Finally, let's save the workplace image so we can pick up from here.
