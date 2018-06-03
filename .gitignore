@@ -30,3 +30,5 @@ Data/
 Rplot.png
 #Data files, these are for Rstudio to pick up where we left off between files
 *.RData
+#Html Files
+*.html
