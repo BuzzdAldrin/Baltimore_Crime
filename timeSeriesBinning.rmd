@@ -1,0 +1,33 @@
+---
+title: "Time Series Binning"
+author: "Jason Hammett"
+date: "April 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Install function courtesy of CSCI 349
+my.install <- function(pkg){
+  if (!(pkg %in% installed.packages()[,1])){
+    install.packages(pkg)
+  }
+  return (require(pkg, character.only=TRUE))
+}
+
+#Load Data
+load("cleanedData.RData")
+```
+
+## R Markdown
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+####Time Series Binning
+These data sets are a time series. Every event is linked to events before and after in strict order. Remove the time and we lose the inherit relationship. I would like to bin data by hour to perform more generic time series analysis.
+
+```{r time series binning}
+
+```

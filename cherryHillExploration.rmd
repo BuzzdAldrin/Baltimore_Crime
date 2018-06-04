@@ -39,8 +39,13 @@ cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"
 #scale_colour_manual(values=cbPalette)
 ```
 
-## R Markdown
+## Cherry Hill: A Neighborhood Level Analysis
 
+
+To begin, I'll load the data cleaned in data_cleaning.rmd
+```{r data import}
+load("cleanedData.RData")
+```
 
 
  I'll grab the cherryHill neighborhood from the data set
@@ -63,6 +68,7 @@ mapPoints
 mapPoints2 <- ggmap(cherryHillMap) + geom_point(aes(x = Longitude, y = Latitude, colour = Weapon), data = cherryHill, alpha = .75) + scale_colour_manual(values=cbbPalette)
 mapPoints2 <- mapPoints2 + ggtitle("Crime in Cherry Hill by Weapon Used") + ylab("Latitude") + xlab("Longitude")
 
+#Display
 mapPoints2
 ```
 
@@ -80,5 +86,7 @@ cherryHillModel <- rpart(cherryHillTrain, formula = CrimeCode ~ Description)
 prp(cherryHillModel)
 #Make two more models
 cherryHillModel2 <- rpart(cherryHillTrain, formula = Weapon ~ Description)
+prp(cherryHillModel2)
 ```
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
