@@ -1,10 +1,11 @@
-# Baltimore Open-Source Intelligence Crime Analysis
+# Baltimore Crime Analysis Using Open Source Intelligence #
 
 #### *"For his eyes are upon the ways of man, and he seeth all his goings."* - Job 34:21-22 KJV ####
 
 This R project statistically analyzes self-reported data from the Baltimore Police Department released as part of their consent decree.
-At its core, this is a personal attempt at civic understanding. Is there another way? 
-There are too many ways of thinking about crime. It can be analyzed through the lenses of policing, drug policy, or familial structure. An aproachable angle for a data scientist is to examine crime as an intelligence problem. 
+At its core, this is a personal attempt at civic understanding. Why are things the way they are? How can we think about an emotional issue intelligently and without fear? Crime is such an issue along with many others. 
+
+There are too many ways of thinking about crime. It can be analyzed through the lenses of policing, drug use, or familial structure. An aproachable angle for a data scientist is to examine crime as an intelligence problem. 
 
 #### *"There are known knowns...* ####
 
