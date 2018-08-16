@@ -280,7 +280,13 @@ category <- replaceWith(category, "PHOTO STUDIO", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "SHOPPING MALL", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "CARRY OUT", "BUSINESS", asFactor = FALSE)
 category <- replaceWith(category, "FINANCE/LO", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "WHOLESALE", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "SALON", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "LAUNDRY", "BUSINESS", asFactor = FALSE)
+category <- replaceWith(category, "SALON", "SALESMAN", asFactor = FALSE)
 
+#Abandoned Property
+categpry <- replaceWith(category, "VACANT PROPERTY", "VACANT", asFactor = FALSE)
 
 #Recreation
 category <- replaceWith(category, "PARK", "RECREATION", asFactor = FALSE)
@@ -297,6 +303,7 @@ category <- replaceWith(category, "CAB", "TRANSPORTATION", asFactor = FALSE)
 category <- replaceWith(category, "BOAT/SHIP", "TRANSPORTATION", asFactor = FALSE)
 category <- replaceWith(category, "BUS/AUTO", "TRANSPORTATION", asFactor = FALSE)
 category <- replaceWith(category, "LIGHT RAIL", "TRANSPORTATION", asFactor = FALSE)
+category <- replaceWith(category, "TRACTOR TRAILER", "TRANSPORTATION", asFactor = FALSE)
 
 #Add PremiseCategory Back into the dataframe, removing unused levels
 victims$PremiseCategory <- factor(category)
