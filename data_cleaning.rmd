@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #Install function courtesy of CSCI 349
 my.install <- function(pkg){
   if (!(pkg %in% installed.packages()[,1])){
-    install.packages(pkg)
+    install.packages(pkg, repos = "https://cran.revolutionanalytics.com/")
   }
   return (require(pkg, character.only=TRUE))
 }
@@ -39,11 +39,12 @@ cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"
 #scale_colour_manual(values=cbPalette)
 ```
 
-## Baltimore Crime
+## Baltimore Crime Analysis using Open Source Intelligence
 ### Initial Exploration
 
-Let's begin by loading the three data files in. Note that this data is from fall 2017. 
-We have data on: calls, arrests, and victims. Calls is a very large file, and arrests has pretty messy data, so we'll do a separate rmd of EDA on those.
+We have the following datasets: calls, arrests, and victims.
+Let's begin by loading the the "Victims" dataset. Calls is a very large file, and arrests has pretty messy data, so we'll do a separate rmd of EDA on those.
+"Victims" is a dataset of victim-based crime. These are physical crimes such as robbery, homicide, or arson. 
 
 ```{r importing data}
 victims <- read.csv("Data/BPD_Part_1_Victim_Based_Crime_Data.csv")
