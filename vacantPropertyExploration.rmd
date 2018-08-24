@@ -1,0 +1,40 @@
+---
+title: "VacantPropertyExploration"
+author: "Jason"
+date: "August 24, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Install function courtesy of CSCI 349
+my.install <- function(pkg){
+  if (!(pkg %in% installed.packages()[,1])){
+    install.packages(pkg)
+  }
+  return (require(pkg, character.only=TRUE))
+}
+#Knitr
+my.install("knitr")
+#Decision Tree Libs
+my.install("rpart")
+my.install("rpart.plot")
+#Plotting Libs
+my.install("ggplot2")
+my.install("ggmap")
+my.install("leaflet")
+
+#colorblind settings
+# The palette with grey:
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+# The palette with black:
+cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+```
+
+## Vacant Property Exploration
+
+### Introduction ###
+
+The role of abandoned property in crime is subject to much research. It's approached from multiple angles. Think of both sides of the idea of broken windows. [The article behind the policing policy of broken windows appeared in the Atlantic in March 1982.](https://www.theatlantic.com/magazine/archive/1982/03/broken-windows/304465/) It's followers  contend that 
