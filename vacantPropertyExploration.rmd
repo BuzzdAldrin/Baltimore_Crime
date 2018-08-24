@@ -24,6 +24,8 @@ my.install("rpart.plot")
 my.install("ggplot2")
 my.install("ggmap")
 my.install("leaflet")
+my.install("dplyr")
+my.install("tidyr")
 
 #colorblind settings
 # The palette with grey:
@@ -35,6 +37,40 @@ cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2"
 
 ## Vacant Property Exploration
 
+![Row Homes](https://c1.staticflickr.com/3/2712/4124862282_8e42a85b13_b.jpg)
+
 ### Introduction ###
 
-The role of abandoned property in crime is subject to much research. It's approached from multiple angles. Think of both sides of the idea of broken windows. [The article behind the policing policy of broken windows appeared in the Atlantic in March 1982.](https://www.theatlantic.com/magazine/archive/1982/03/broken-windows/304465/) It's followers  contend that 
+The role of abandoned property in crime is subject to much research. It's approached from multiple angles. Consider both sides of the idea of broken windows. [The article behind the policing policy of broken windows appeared in the Atlantic in March 1982.](https://www.theatlantic.com/magazine/archive/1982/03/broken-windows/304465/) It's followers  contend that delinquents see broken windows and abandoned property as signs of "the breakdown of community controls." Therefore policing more minute crimes such as loitering, open-containers, and graffiti will curb crime by enforcing better community management.  A [recent article in the New Yorker](https://www.newyorker.com/books/page-turner/the-other-side-of-broken-windows) takes the same data but draws a different conclusion. They argue that instead of more intrusive policing, tackle the abandoned proeprty problem with investment into those properties. This theorizes that judicious use of eminent domain can be more effective at law enforcement than stop and frisk. I like this article as it spins the broken windows theory back to its roots. I do think that it will be very hard to implement legally and economically, but those are usually the most important problems to have.
+
+The debate on broken windows and the role of vacant buildings tends to agree that they play a major role in a community's well-being. I was able to obtain vacant property data from the Baltimore City open data portal. Let's investigate it.
+
+```{r Loading data}
+vacants <- read.csv("Data/Vacant_Buildings.csv")
+summary(vacants)
+```
+
+Let's standardize the capitalization on the string attributes.
+```{r all caps}
+vacants$Neighborhood <- toupper(vacants$Neighborhood)
+vacants$PoliceDistrict <- toupper(vacants$PoliceDistrict)
+vacants$BuildingAddress <- toupper(vacants$BuildingAddress)
+```
+
+Location is (Lat, Lon). Let's break that into separate columns using tidyr.
+```{r}
+vacants <- separate(data = vacants, col = Location, into = c("Lat", "Lon"), sep = ",")
+# Remove the paranthesis from lat and lon
+vacants$Lat <- as.numeric(gsub("\\(", "", vacants$Lat))
+vacants$Lon <- as.numeric(gsub("\\)", "", vacants$Lon))
+```
+
+I'll quickly visualize what we have here. Let's make a map of vacant properties in Fells Point.
+```{r Mapping Fells Point Vacants}
+fellsPointMap <- get_map("fells point, baltimore, maryland", zoom = 16)
+fellsPointVacants <- vacants[which(vacants$Neighborhood == "FELLS POINT"),]
+fellsPlot <- ggmap(fellsPointMap) +
+  geom_point(aes(x = Lon, y = Lat), data = fellsPointVacants, alpha = 0.5)
+# Plot it
+fellsPlot
+```
