@@ -45,9 +45,12 @@ The role of abandoned property in crime is subject to much research. It's approa
 
 The debate on broken windows and the role of vacant buildings tends to agree that they play a major role in a community's well-being. I was able to obtain vacant property data from the Baltimore City open data portal. Let's investigate it.
 
+This file must be ran after data_cleaning as we'll import the data from that file.
+
 ```{r Loading data}
+load("cleanedData.RData")
 vacants <- read.csv("Data/Vacant_Buildings.csv")
-summary(vacants)
+str(vacants)
 ```
 
 Let's standardize the capitalization on the string attributes.
@@ -73,4 +76,9 @@ fellsPlot <- ggmap(fellsPointMap) +
   geom_point(aes(x = Lon, y = Lat), data = fellsPointVacants, alpha = 0.5)
 # Plot it
 fellsPlot
+```
+
+We'll aggregate number of abandoned properties by neighborhood and plot it as a histogram.
+```{r plot by neighborhood}
+
 ```
